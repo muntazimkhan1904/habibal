@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habib Al Ruh | Oud House, Dubai</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1b1512;
+  --ink-soft:#241d18;
+  --sand:#ece2cf;
+  --sand-deep:#ddcda9;
+  --oud:#a06a3a;
+  --oud-deep:#7c4e28;
+  --ember:#8c3b2e;
+  --cream:#f5efe3;
+  --cream-dim:#cbbfa9;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+html.arabic body{ direction:rtl; }
+
+h1,h2,h3,.display{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+
+html.arabic h1, html.arabic h2, html.arabic h3, html.arabic .display, html.arabic p, html.arabic a, html.arabic button{
+  font-family:'Amiri',serif;
+}
+
+a{ text-decoration:none; color:inherit; }
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:26px 6%;
+  transition:background .4s ease, padding .4s ease;
+}
+.nav.scrolled{
+  background:rgba(27,21,18,.92);
+  backdrop-filter:blur(10px);
+  padding:16px 6%;
+  border-bottom:1px solid rgba(160,106,58,.25);
+}
+.brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;
+  letter-spacing:.18em;
+  color:var(--cream);
+}
+.brand span{ color:var(--oud); }
+.nav-links{ display:flex; gap:34px; align-items:center; }
+.nav-links a{
+  font-size:.82rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--cream-dim);
+  position:relative;
+  padding-bottom:4px;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute; left:0; bottom:0;
+  width:0; height:1px;
+  background:var(--oud);
+  transition:width .3s ease;
+}
+.nav-links a:hover::after{ width:100%; }
+.nav-links a:hover{ color:var(--cream); }
+.lang-btn{
+  border:1px solid rgba(245,239,227,.3);
+  background:transparent;
+  color:var(--cream);
+  font-size:.75rem;
+  letter-spacing:.1em;
+  padding:7px 14px;
+  border-radius:2px;
+  cursor:pointer;
+  transition:border-color .3s ease, color .3s ease;
+}
+.lang-btn:hover{ border-color:var(--oud); color:var(--oud); }
+
+.nav-toggle{ display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; }
+
+@media (max-width:860px){
+  .nav-links{
+    position:fixed; top:0; right:-100%; height:100vh; width:72%;
+    background:var(--ink-soft);
+    flex-direction:column; justify-content:center; gap:28px;
+    transition:right .4s ease;
+    border-left:1px solid rgba(160,106,58,.25);
+  }
+  .nav-links.open{ right:0; }
+  .nav-toggle{ display:block; }
+}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:120px 6% 80px;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(160,106,58,.18), transparent 60%),
+    var(--ink);
+}
+
+.smoke-wrap{
+  position:absolute;
+  bottom:0; left:50%;
+  transform:translateX(-50%);
+  width:340px; height:70vh;
+  pointer-events:none;
+  opacity:.55;
+}
+.smoke-wrap svg{ width:100%; height:100%; }
+.smoke-path{
+  fill:none;
+  stroke:var(--oud);
+  stroke-width:1.4;
+  stroke-linecap:round;
+  opacity:.5;
+  animation:drift 9s ease-in-out infinite;
+}
+.smoke-path.p2{ stroke:var(--ember); opacity:.32; animation-duration:12s; animation-delay:-3s; }
+.smoke-path.p3{ opacity:.24; animation-duration:14s; animation-delay:-6s; }
+
+@keyframes drift{
+  0%{ transform:translateY(0) scaleX(1); opacity:.05; }
+  15%{ opacity:.5; }
+  50%{ transform:translateY(-30px) scaleX(1.03); }
+  85%{ opacity:.15; }
+  100%{ transform:translateY(-70px) scaleX(0.97); opacity:0; }
+}
+
+.hero-inner{ position:relative; z-index:2; max-width:720px; }
+.eyebrow{
+  font-size:.78rem;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:var(--oud);
+  margin-bottom:22px;
+  display:block;
+}
+.hero h1{
+  font-size:clamp(3rem,7vw,5.6rem);
+  color:var(--cream);
+  line-height:1.05;
+  margin-bottom:22px;
+}
+.hero p{
+  font-size:1.08rem;
+  color:var(--cream-dim);
+  max-width:520px;
+  margin:0 auto 40px;
+  line-height:1.7;
+}
+
+.btn{
+  display:inline-block;
+  padding:15px 36px;
+  font-size:.85rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  border:1px solid var(--oud);
+  color:var(--cream);
+  border-radius:2px;
+  transition:background .35s ease, color .35s ease;
+  cursor:pointer;
+  background:transparent;
+}
+.btn:hover{ background:var(--oud); color:var(--ink); }
+.btn-solid{ background:var(--oud); color:var(--ink); }
+.btn-solid:hover{ background:var(--oud-deep); border-color:var(--oud-deep); color:var(--cream); }
+
+.scroll-cue{
+  position:absolute;
+  bottom:36px; left:50%;
+  transform:translateX(-50%);
+  font-size:.7rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--cream-dim);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.scroll-cue .line{ width:1px; height:34px; background:linear-gradient(var(--oud),transparent); }
+
+/* ---------- section shell ---------- */
+section{ padding:130px 6%; position:relative; }
+.eyebrow-line{
+  width:70px; height:1px; background:var(--oud);
+  margin:0 auto 20px;
+}
+.section-head{ text-align:center; max-width:640px; margin:0 auto 70px; }
+.section-head .eyebrow{ margin-bottom:14px; }
+.section-head h2{ font-size:clamp(2.1rem,4vw,3rem); color:var(--cream); margin-bottom:18px; }
+.section-head p{ color:var(--cream-dim); line-height:1.7; }
+
+/* ---------- pyramid ---------- */
+.pyramid{
+  max-width:920px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.tier{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:34px;
+  align-items:center;
+  padding:36px 0;
+  border-bottom:1px solid rgba(245,239,227,.08);
+}
+.tier:last-child{ border-bottom:none; }
+.tier-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--oud);
+  text-align:right;
+  padding-right:20px;
+  border-right:1px solid rgba(160,106,58,.4);
+}
+html.arabic .tier-label{ text-align:left; padding-right:0; padding-left:20px; border-right:none; border-left:1px solid rgba(160,106,58,.4); }
+.tier-body h3{ font-size:1.5rem; color:var(--cream); margin-bottom:8px; }
+.tier-body p{ color:var(--cream-dim); line-height:1.7; font-size:.98rem; }
+
+@media (max-width:640px){
+  .tier{ grid-template-columns:1fr; gap:10px; }
+  .tier-label{ text-align:left; border-right:none; padding-right:0; border-bottom:1px solid rgba(160,106,58,.4); padding-bottom:10px; }
+}
+
+/* ---------- collection ---------- */
+.collection-grid{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:40px;
+}
+@media (max-width:900px){ .collection-grid{ grid-template-columns:1fr; max-width:420px; } }
+
+.bottle-card{
+  background:var(--ink-soft);
+  border:1px solid rgba(160,106,58,.2);
+  overflow:hidden;
+  transition:transform .4s ease, border-color .4s ease;
+}
+.bottle-card:hover{ transform:translateY(-8px); border-color:rgba(160,106,58,.55); }
+.bottle-media{ height:300px; overflow:hidden; }
+.bottle-media img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.85) brightness(.92); transition:transform .6s ease; }
+.bottle-card:hover .bottle-media img{ transform:scale(1.06); }
+.bottle-body{ padding:28px 26px 30px; }
+.bottle-tag{ font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--oud); margin-bottom:10px; display:block; }
+.bottle-body h3{ font-size:1.6rem; color:var(--cream); margin-bottom:10px; }
+.bottle-body p{ color:var(--cream-dim); font-size:.94rem; line-height:1.6; margin-bottom:20px; }
+.bottle-foot{ display:flex; align-items:center; justify-content:space-between; }
+.price{ font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--cream); }
+.inquire{ font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--oud); border-bottom:1px solid var(--oud); padding-bottom:2px; }
+
+/* ---------- about ---------- */
+.about-section{ background:var(--sand); color:var(--ink); }
+.about-grid{
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:70px; align-items:center;
+}
+@media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
+.about-media{ position:relative; }
+.about-media img{ width:100%; height:460px; object-fit:cover; }
+.about-media::after{
+  content:'';
+  position:absolute; inset:18px -18px -18px 18px;
+  border:1px solid var(--oud);
+  z-index:-1;
+}
+.about-copy .eyebrow{ color:var(--oud-deep); }
+.about-copy h2{ font-size:clamp(2rem,3.6vw,2.8rem); margin-bottom:22px; }
+.about-copy p{ color:#4a3d30; line-height:1.8; margin-bottom:18px; font-size:1.02rem; }
+.stat-row{ display:flex; gap:44px; margin-top:34px; }
+.stat-row .num{ font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:var(--oud-deep); display:block; }
+.stat-row .lab{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:#6b5c48; }
+
+/* ---------- contact ---------- */
+.contact-section{ background:var(--ink); }
+.contact-wrap{
+  max-width:640px; margin:0 auto;
+  background:var(--ink-soft);
+  border:1px solid rgba(160,106,58,.25);
+  padding:56px 50px;
+}
+@media (max-width:560px){ .contact-wrap{ padding:40px 26px; } }
+.field{ margin-bottom:22px; }
+.field label{ display:block; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--cream-dim); margin-bottom:9px; }
+.field input, .field textarea{
+  width:100%;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid rgba(245,239,227,.25);
+  color:var(--cream);
+  font-family:'Jost',sans-serif;
+  font-size:1rem;
+  padding:10px 2px;
+  outline:none;
+  transition:border-color .3s ease;
+}
+.field input:focus, .field textarea:focus{ border-color:var(--oud); }
+.field textarea{ resize:vertical; min-height:100px; }
+.contact-wrap .btn{ width:100%; margin-top:8px; }
+
+/* ---------- footer ---------- */
+footer{
+  padding:50px 6% 40px;
+  text-align:center;
+  border-top:1px solid rgba(245,239,227,.08);
+}
+footer .brand{ display:block; margin-bottom:10px; }
+footer p{ color:var(--cream-dim); font-size:.82rem; letter-spacing:.05em; }
+
+/* reveal on scroll */
+.reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+@media (prefers-reduced-motion: reduce){
+  .smoke-path{ animation:none; opacity:.2; }
+  .reveal{ transition:none; opacity:1; transform:none; }
+  .bottle-card, .bottle-media img{ transition:none; }
+}
+
+:focus-visible{ outline:2px solid var(--oud); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="siteNav">
+  <a href="#home" class="brand">HABIB <span>AL RUH</span></a>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#collection" data-en="Collection" data-ar="المجموعة">Collection</a>
+    <a href="#notes" data-en="The Notes" data-ar="النغمات">The Notes</a>
+    <a href="#about" data-en="About" data-ar="من نحن">About</a>
+    <a href="#contact" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+    <button class="lang-btn" id="langBtn">EN / عربي</button>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="smoke-wrap" aria-hidden="true">
+    <svg viewBox="0 0 200 500">
+      <path class="smoke-path p1" d="M100 500 C 60 420, 140 380, 100 320 C 60 260, 140 220, 100 160 C 70 110, 130 70, 100 0" />
+      <path class="smoke-path p2" d="M100 500 C 130 430, 70 390, 110 330 C 145 275, 65 235, 105 170 C 130 120, 75 80, 100 10" />
+      <path class="smoke-path p3" d="M100 500 C 80 440, 120 400, 90 340 C 65 290, 125 245, 95 180 C 80 130, 120 90, 100 20" />
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <span class="eyebrow" data-en="Dubai · Est. Oud House" data-ar="دبي · دار عطر">Dubai · Est. Oud House</span>
+    <h1 id="heroTitle">Habib Al Ruh</h1>
+    <p id="heroText">A perfume house built around a single idea: that oud is not a scent you wear, but a memory you carry. Each bottle is aged, blended, and finished by hand in Dubai.</p>
+    <a href="#collection" class="btn btn-solid" id="heroBtn" data-en="Explore the Collection" data-ar="استكشف المجموعة">Explore the Collection</a>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span><div class="line"></div></div>
+</section>
+
+<section id="notes">
+  <div class="section-head reveal">
+    <span class="eyebrow" data-en="Composition" data-ar="التركيب">Composition</span>
+    <h2 id="notesTitle">How a Habib Al Ruh Scent Is Built</h2>
+    <p id="notesText">Every fragrance we release follows the same discipline: a bright opening, a warm heart, and an oud base that outlasts the evening. Nothing is added that doesn't earn its place.</p>
+  </div>
+
+  <div class="pyramid">
+    <div class="tier reveal">
+      <div class="tier-label">Top</div>
+      <div class="tier-body">
+        <h3>The First Ten Minutes</h3>
+        <p>Saffron, pink pepper, and bergamot open every blend — a bright signal before the deeper notes arrive.</p>
+      </div>
+    </div>
+    <div class="tier reveal">
+      <div class="tier-label">Heart</div>
+      <div class="tier-body">
+        <h3>What Lingers on Skin</h3>
+        <p>Rose from Taif, amber, and a trace of leather sit at the centre — this is the note people remember you by.</p>
+      </div>
+    </div>
+    <div class="tier reveal">
+      <div class="tier-label">Base</div>
+      <div class="tier-body">
+        <h3>What Remains by Nightfall</h3>
+        <p>Cambodian oud, musk, and sandalwood, aged for weeks before bottling, so the scent deepens rather than fades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="collection">
+  <div class="section-head reveal">
+    <span class="eyebrow">Our Collection</span>
+    <h2>Three Blends, One Discipline</h2>
+    <p>Each fragrance below is built on the same pyramid — top, heart, and base — but tuned toward a different mood.</p>
+  </div>
+
+  <div class="collection-grid">
+    <div class="bottle-card reveal">
+      <div class="bottle-media"><img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=1000" alt="Royal Oud bottle"></div>
+      <div class="bottle-body">
+        <span class="bottle-tag">Base-Forward</span>
+        <h3>Royal Oud</h3>
+        <p>Deep Cambodian oud over saffron and leather. Built for evening, worn close to the skin.</p>
+        <div class="bottle-foot"><span class="price">$120</span><a href="#contact" class="inquire">Inquire</a></div>
+      </div>
+    </div>
+
+    <div class="bottle-card reveal">
+      <div class="bottle-media"><img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=1000" alt="Golden Musk bottle"></div>
+      <div class="bottle-body">
+        <span class="bottle-tag">Heart-Forward</span>
+        <h3>Golden Musk</h3>
+        <p>White musk and amber balanced by a whisper of rose. Softer, meant for daylight.</p>
+        <div class="bottle-foot"><span class="price">$95</span><a href="#contact" class="inquire">Inquire</a></div>
+      </div>
+    </div>
+
+    <div class="bottle-card reveal">
+      <div class="bottle-media"><img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=1000" alt="Desert Rose bottle"></div>
+      <div class="bottle-body">
+        <span class="bottle-tag">Top-Forward</span>
+        <h3>Desert Rose</h3>
+        <p>Taif rose and bergamot over a light sandalwood base. Bright, floral, and unmistakably Arabian.</p>
+        <div class="bottle-foot"><span class="price">$110</span><a href="#contact" class="inquire">Inquire</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-section" id="about">
+  <div class="about-grid">
+    <div class="about-media reveal">
+      <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=1200" alt="Oud aging barrels">
+    </div>
+    <div class="about-copy reveal">
+      <span class="eyebrow">Our Story</span>
+      <h2>Aged in Dubai, Not Rushed</h2>
+      <p>Habib Al Ruh started as a small blending room, not a factory. We still age every base note for weeks before it's allowed near a bottle — because oud that hasn't been given time smells expensive, but oud that has been aged smells like something.</p>
+      <p>We keep the collection small on purpose. Three blends, each true to its pyramid, rather than a shelf of scents that all smell the same by the second spray.</p>
+      <div class="stat-row">
+        <div><span class="num">3</span><span class="lab">Signature Blends</span></div>
+        <div><span class="num">6wk</span><span class="lab">Minimum Aging</span></div>
+        <div><span class="num">100%</span><span class="lab">Hand-Finished</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="section-head reveal">
+    <span class="eyebrow">Get in Touch</span>
+    <h2>Ask Us About a Scent</h2>
+    <p>Tell us the mood you're after and we'll point you to the right blend, or arrange a sample.</p>
+  </div>
+
+  <div class="contact-wrap reveal">
+    <form onsubmit="return false;">
+      <div class="field">
+        <label for="cname">Name</label>
+        <input id="cname" type="text" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="cemail">Email</label>
+        <input id="cemail" type="email" placeholder="you@email.com">
+      </div>
+      <div class="field">
+        <label for="cmsg">Message</label>
+        <textarea id="cmsg" placeholder="Which blend are you curious about?"></textarea>
+      </div>
+      <button class="btn btn-solid" type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <a href="#home" class="brand">HABIB <span style="color:var(--oud)">AL RUH</span></a>
+  <p>Luxury Oud House · Dubai</p>
+</footer>
+
+<script>
+// nav scroll state
+const nav = document.getElementById('siteNav');
+window.addEventListener('scroll', ()=>{
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// mobile menu
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', ()=> navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>navLinks.classList.remove('open')));
+
+// reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:.15 });
+revealEls.forEach(el=>io.observe(el));
+
+// language toggle
+let arabic = false;
+const html = document.getElementById('htmlTag');
+const langBtn = document.getElementById('langBtn');
+
+const copy = {
+  en:{
+    heroTitle:"Habib Al Ruh",
+    heroText:"A perfume house built around a single idea: that oud is not a scent you wear, but a memory you carry. Each bottle is aged, blended, and finished by hand in Dubai.",
+    heroBtn:"Explore the Collection",
+    notesTitle:"How a Habib Al Ruh Scent Is Built",
+    notesText:"Every fragrance we release follows the same discipline: a bright opening, a warm heart, and an oud base that outlasts the evening. Nothing is added that doesn't earn its place."
+  },
+  ar:{
+    heroTitle:"حبيب الروح",
+    heroText:"دار عطر مبنية على فكرة واحدة: العود ليس رائحة تُرتدى، بل ذكرى تُحمل. كل قارورة تُعتّق وتُمزج وتُنجز يدويًا في دبي.",
+    heroBtn:"استكشف المجموعة",
+    notesTitle:"كيف يُبنى عطر حبيب الروح",
+    notesText:"كل عطر نصدره يتبع نفس الانضباط: افتتاحية زاهية، وقلب دافئ، وقاعدة عود تدوم طوال المساء. لا تُضاف نغمة إلا إن استحقت مكانها."
+  }
+};
+
+function applyLang(lang){
+  document.getElementById('heroTitle').textContent = copy[lang].heroTitle;
+  document.getElementById('heroText').textContent = copy[lang].heroText;
+  document.getElementById('heroBtn').textContent = copy[lang].heroBtn;
+  document.getElementById('notesTitle').textContent = copy[lang].notesTitle;
+  document.getElementById('notesText').textContent = copy[lang].notesText;
+
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    el.textContent = lang === 'ar' ? el.dataset.ar : el.dataset.en;
+  });
+}
+
+langBtn.addEventListener('click', ()=>{
+  arabic = !arabic;
+  html.classList.toggle('arabic', arabic);
+  applyLang(arabic ? 'ar' : 'en');
+});
+</script>
+
+</body>
+</html>
