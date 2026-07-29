@@ -103,8 +103,6 @@ a{ text-decoration:none; color:inherit; }
 }
 .lang-btn:hover{ border-color:var(--oud); color:var(--oud); }
 
-.nav-toggle{ display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; }
-
 @media (max-width:860px){
   .nav-links{
     position:fixed; top:0; right:-100%; height:100vh; width:72%;
@@ -112,10 +110,45 @@ a{ text-decoration:none; color:inherit; }
     flex-direction:column; justify-content:center; gap:28px;
     transition:right .4s ease;
     border-left:1px solid rgba(160,106,58,.25);
+    z-index:98;
   }
   .nav-links.open{ right:0; }
-  .nav-toggle{ display:block; }
 }
+
+/* ---------- hamburger / menu toggle ---------- */
+.menu-toggle{
+  display:none;
+  position:fixed;
+  top:22px;
+  right:6%;
+  width:42px;
+  height:42px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  z-index:99;
+}
+@media (max-width:860px){
+  .menu-toggle{ display:block; }
+}
+.menu-toggle span{
+  position:absolute;
+  left:8px;
+  width:26px;
+  height:2px;
+  background:var(--cream);
+  border-radius:2px;
+  transition:.3s ease;
+}
+.menu-toggle span:nth-child(1){ top:14px; }
+.menu-toggle span:nth-child(2){ top:20px; }
+.menu-toggle span:nth-child(3){ top:26px; }
+
+.menu-toggle.active span:nth-child(1){ top:20px; transform:rotate(45deg); }
+.menu-toggle.active span:nth-child(2){ opacity:0; }
+.menu-toggle.active span:nth-child(3){ top:20px; transform:rotate(-45deg); }
+
+html.arabic .menu-toggle{ right:auto; left:6%; }
 
 /* ---------- top strip ---------- */
 
@@ -408,93 +441,12 @@ footer a.foot-wa{ color:#4fd671; }
 }
 
 :focus-visible{ outline:2px solid var(--oud); outline-offset:3px; }
-
-.menu-toggle {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.menu-toggle i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: opacity .3s ease, transform .3s ease;
-}
-
-.menu-toggle .fa-times {
-    opacity: 0;
-}
-
-.menu-toggle.active .fa-bars {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.menu-toggle.active .fa-times {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(0);
-}
-.menu-toggle{
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    width: 42px;
-    height: 42px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 99999;
-}
-
-.menu-toggle span{
-    position: absolute;
-    left: 8px;
-    width: 26px;
-    height: 2px;
-    background: #d9b38c;
-    transition: .3s;
-}
-
-.menu-toggle span:nth-child(1){ top:12px; }
-.menu-toggle span:nth-child(2){ top:20px; }
-.menu-toggle span:nth-child(3){ top:28px; }
-
-/* Cross */
-.menu-toggle.active span:nth-child(1){
-    top:20px;
-    transform: rotate(45deg);
-}
-
-.menu-toggle.active span:nth-child(2){
-    opacity:0;
-}
-
-.menu-toggle.active span:nth-child(3){
-    top:20px;
-    transform: rotate(-45deg);
-}
 </style>
 </head>
 <body>
 
-<button class="menu-toggle" id="menuToggle" aria-label="Menu">
-    <i class="fas fa-bars"></i>
-    <i class="fas fa-times"></i>
-
-     <span></span>
-    <span></span>
-    <span></span>
-</button>
-
 <nav class="nav" id="siteNav">
   <a href="#home" class="brand">HABIB <span>AL RUH</span></a>
-
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
 
   <div class="nav-links" id="navLinks">
     <a href="#collection" data-en="Collection" data-ar="المجموعة">Collection</a>
@@ -504,6 +456,12 @@ footer a.foot-wa{ color:#4fd671; }
     <a class="wa-link-nav" id="waNavLink" href="https://wa.me/971509663267" target="_blank" rel="noopener" data-en="WhatsApp Us" data-ar="واتساب">WhatsApp Us</a>
     <button class="lang-btn" id="langBtn">EN / عربي</button>
   </div>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
 
 <section class="hero" id="home">
@@ -634,7 +592,7 @@ footer a.foot-wa{ color:#4fd671; }
   <a href="#home" class="brand">HABIB <span style="color:var(--oud)">AL RUH</span></a>
   <p>Luxury Oud House · Dubai</p>
   <p>WhatsApp Concierge: <a class="foot-wa wa-link" id="footWaLink" href="https://wa.me/971509663267">+971 50 966 3267</a></p>
-  <p>Developed by: <a href="https://www.skylineitsolutions.com" target="_blank" rel="noopener noreferrer">Skyline IT Solutions</a></p>
+  <p><a href="https://skylineitsolutions.com" class="wa-link" target="_blank" rel="noopener">Skyline IT Solutions</a></p>
 </footer>
 
 <a href="https://wa.me/971509663267" class="wa-float wa-link" id="waFloat" aria-label="Chat on WhatsApp" target="_blank" rel="noopener">
@@ -693,7 +651,6 @@ function renderProducts(lang){
   const grid = document.getElementById('collectionGrid');
   const select = document.getElementById('cproduct');
   grid.innerHTML = '';
-  // keep the first placeholder option, clear the rest
   select.innerHTML = lang === 'ar'
     ? '<option value="">لست متأكدًا بعد — فاجئني</option>'
     : '<option value="">Not sure yet — surprise me</option>';
@@ -714,18 +671,10 @@ function renderProducts(lang){
         <p>${p.desc}</p>
         <div class="bottle-foot">
           <span class="price">${p.price}</span>
-         <a class="inquire wa-link" 
-   href="https://wa.me/971509663267?text=Hello%20I%20am%20interested%20in%20your%20services" 
-   target="_blank" 
-   rel="noopener">
-
-    <svg viewBox="0 0 24 24">
-        <path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.45 1.27 4.9L2 22l5.25-1.38A9.95 9.95 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm5.79 14.2c-.24.68-1.4 1.32-1.94 1.4-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.66-.6-2.92-1.26-4.83-4.2-4.98-4.4-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.6-.37.8-.37h.58c.19 0 .43-.03.67.51.24.55.83 1.9.9 2.04.07.14.12.3.02.5-.1.2-.15.3-.3.46-.15.16-.31.36-.44.48-.15.14-.3.3-.13.6.17.3.75 1.24 1.63 2.01 1.12.99 2.05 1.3 2.35 1.45.3.14.47.12.65-.07.18-.2.75-.87.95-1.16.2-.3.4-.24.66-.14.27.1 1.7.8 1.99.95.3.14.49.22.56.34.08.13.08.72-.16 1.4z"/>
-    </svg>
-
-    ${inquireLabel}
-
-</a>
+          <a class="inquire wa-link" href="${waLink(msg)}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.45 1.27 4.9L2 22l5.25-1.38A9.95 9.95 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm5.79 14.2c-.24.68-1.4 1.32-1.94 1.4-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.66-.6-2.92-1.26-4.83-4.2-4.98-4.4-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.6-.37.8-.37h.58c.19 0 .43-.03.67.51.24.55.83 1.9.9 2.04.07.14.12.3.02.5-.1.2-.15.3-.3.46-.15.16-.31.36-.44.48-.15.14-.3.3-.13.6.17.3.75 1.24 1.63 2.01 1.12.99 2.05 1.3 2.35 1.45.3.14.47.12.65-.07.18-.2.75-.87.95-1.16.2-.3.4-.24.66-.14.27.1 1.7.8 1.99.95.3.14.49.22.56.34.08.13.08.72-.16 1.4z"/></svg>
+            ${inquireLabel}
+          </a>
         </div>
       </div>
     `;
@@ -738,16 +687,43 @@ function renderProducts(lang){
   });
 }
 
-// nav scroll state
-
-
-// mobile menu
-const navToggle = document.getElementById('navToggle');
+/* ---------- mobile menu toggle (single, working) ---------- */
+const menuToggle = document.getElementById('menuToggle');
 const navLinks = document.getElementById('navLinks');
-navToggle.addEventListener('click', ()=> navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
-  if(a.id !== 'waNavLink') navLinks.classList.remove('open');
-}));
+
+function closeMenu(){
+  menuToggle.classList.remove('active');
+  navLinks.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+}
+function openMenu(){
+  menuToggle.classList.add('active');
+  navLinks.classList.add('open');
+  menuToggle.setAttribute('aria-expanded', 'true');
+}
+
+menuToggle.addEventListener('click', ()=>{
+  const isOpen = navLinks.classList.contains('open');
+  isOpen ? closeMenu() : openMenu();
+});
+
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+
+// close menu on outside click / resize back to desktop
+document.addEventListener('click', (e)=>{
+  if(!navLinks.classList.contains('open')) return;
+  if(navLinks.contains(e.target) || menuToggle.contains(e.target)) return;
+  closeMenu();
+});
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 860) closeMenu();
+});
+
+// nav scroll state
+const siteNav = document.getElementById('siteNav');
+window.addEventListener('scroll', ()=>{
+  siteNav.classList.toggle('scrolled', window.scrollY > 40);
+});
 
 // reveal on scroll (for static, non-injected sections)
 const io = new IntersectionObserver((entries)=>{
@@ -801,8 +777,7 @@ const copy = {
     notesTitle:"How a Habib Al Ruh Scent Is Built",
     notesText:"Every fragrance we release follows the same discipline: a bright opening, a warm heart, and an oud base that outlasts the evening. Nothing is added that doesn't earn its place.",
     sendWaLabel:"Send via WhatsApp",
-    contactNote:"This opens WhatsApp with your message pre-filled — nothing is sent until you hit send there.",
-    topStrip:"Complimentary Sampling & Delivery Across Dubai — Order Directly on WhatsApp"
+    contactNote:"This opens WhatsApp with your message pre-filled — nothing is sent until you hit send there."
   },
   ar:{
     heroTitle:"حبيب الروح",
@@ -812,8 +787,7 @@ const copy = {
     notesTitle:"كيف يُبنى عطر حبيب الروح",
     notesText:"كل عطر نصدره يتبع نفس الانضباط: افتتاحية زاهية، وقلب دافئ، وقاعدة عود تدوم طوال المساء. لا تُضاف نغمة إلا إن استحقت مكانها.",
     sendWaLabel:"أرسل عبر واتساب",
-    contactNote:"سيتم فتح واتساب مع رسالتك جاهزة مسبقًا — لن يتم إرسال شيء حتى تضغط إرسال هناك.",
-    topStrip:"عينات وتوصيل مجاني في دبي — اطلب مباشرة عبر واتساب"
+    contactNote:"سيتم فتح واتساب مع رسالتك جاهزة مسبقًا — لن يتم إرسال شيء حتى تضغط إرسال هناك."
   }
 };
 
@@ -826,7 +800,6 @@ function applyLang(lang){
   document.getElementById('notesText').textContent = copy[lang].notesText;
   document.getElementById('sendWaLabel').textContent = copy[lang].sendWaLabel;
   document.getElementById('contactNote').textContent = copy[lang].contactNote;
-  document.getElementById('topStrip').textContent = copy[lang].topStrip;
 
   document.querySelectorAll('[data-en]').forEach(el=>{
     el.textContent = lang === 'ar' ? el.dataset.ar : el.dataset.en;
@@ -844,16 +817,6 @@ langBtn.addEventListener('click', ()=>{
 
 // initial render
 applyLang('en');
-
-
-
-const menuToggle = document.getElementById("menuToggle");
-const mobileMenu = document.querySelector(".mobile-menu");
-
-menuToggle.addEventListener("click", () => {
-    menuToggle.classList.toggle("active");
-    mobileMenu.classList.toggle("active");
-});
 </script>
 
 </body>
